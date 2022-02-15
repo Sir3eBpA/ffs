@@ -1,0 +1,32 @@
+﻿<adonisControls:AdonisWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+                             xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+                             xmlns:ffsControls="clr-namespace:FFS.Controls"
+                             Title="Fast File Search"
+                             WindowStartupLocation="CenterScreen"
+                             MinHeight="400"
+                             MinWidth="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0">
+            <ffsControls:SearchTab Height="60" Width="60" Margin="0 0 0 5"></ffsControls:SearchTab>
+            <ffsControls:SearchTab Height="60" Width="60" Margin="0 0 0 5"></ffsControls:SearchTab>
+            <ffsControls:SearchTab Height="60" Width="60" Margin="0 0 0 5"></ffsControls:SearchTab>
+            <ffsControls:SearchTab Height="60" Width="60" Margin="0 0 0 5"></ffsControls:SearchTab>
+            
+        </StackPanel>
+
+        <Grid Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        </Grid>
+    </Grid>
+
+</adonisControls:AdonisWindow>
