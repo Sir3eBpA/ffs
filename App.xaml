@@ -11,6 +11,8 @@
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <Thickness x:Key="{x:Static adonisUi:Dimensions.BorderThickness}">2</Thickness>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
