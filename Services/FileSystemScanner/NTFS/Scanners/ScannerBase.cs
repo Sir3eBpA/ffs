@@ -12,25 +12,20 @@ namespace FFS.Services.FileSystemScanner.Scanners
 {
     public abstract class ScannerBase
     {
-        protected DriveInfo[] _drives;
-        protected NtfsReader[] _ntfsReaders;
+        protected DriveInfo _drive;
+        protected Func<INode, bool> _filter;
 
-        protected ScannerBase(DriveInfo[] drives)
+        protected ScannerBase(DriveInfo drive)
         {
-            _drives = drives;
-            BuildNTFSReaders(drives);
+            _drive = drive;
         }
 
-        protected void BuildNTFSReaders(DriveInfo[] drives)
+        protected ScannerBase(DriveInfo drive, Func<INode, bool> filter)
         {
-            _ntfsReaders = new NtfsReader[drives.Length];
-            for (int i = 0; i < drives.Length; ++i)
-            {
-                DriveInfo drive = drives[i].GetDriveInfoWithDiskNameAsLetter();
-                _ntfsReaders[i] = new NtfsReader(drive, RetrieveMode.All);
-            }
+            _drive = drive;
+            _filter = filter;
         }
 
-        public abstract Task<ScanResult[]> DoScan();
+        public abstract Task<IList<INode>> DoScan();
     }
 }

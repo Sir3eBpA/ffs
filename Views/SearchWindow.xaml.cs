@@ -1,16 +1,17 @@
 ﻿using System.Windows;
 using AdonisUI.Controls;
+using FFS.ViewModels;
 
-namespace FFS
+namespace FFS.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : AdonisWindow
+    public partial class SearchWindow : AdonisWindow
     {
-        public MainWindow()
+        public SearchWindow()
         {
-            
+            InitializeComponent();
         }
     }
 }

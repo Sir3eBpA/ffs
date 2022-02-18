@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using FFS.Services.FileSystemScanner;
 using FFS.Services.FileSystemScanner.NTFS;
+using FFS.ViewModels;
+using FFS.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -17,12 +19,16 @@ namespace FFS
     /// </summary>
     public partial class App : Application
     {
-        private IServiceProvider _serviceProvider;
+        public static IServiceProvider DI { get; private set; }
 
         public App()
         {
+            InitializeComponent();
             SetupDI();
             SetupLogger();
+
+            SearchWindow window = new SearchWindow() {DataContext = DI.GetService<SearchWindowViewModel>()} ;
+            window.Show();
         }
 
         private void SetupDI()
@@ -30,8 +36,9 @@ namespace FFS
             ServiceCollection services = new ServiceCollection();
 
             services.AddSingleton<IFSScanner, NTFSScannerService>();
+            services.AddSingleton<SearchWindowViewModel>();
 
-            _serviceProvider = services.BuildServiceProvider();
+            DI = services.BuildServiceProvider();
         }
 
         private void SetupLogger()

@@ -1,32 +1,41 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Filesystem.Ntfs;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FFS.Utils;
 
 namespace FFS.Services.FileSystemScanner.Scanners
 {
     public class SequentialScanner : ScannerBase
     {
-        public SequentialScanner(DriveInfo[] drives) : base(drives) {}
+        public SequentialScanner(DriveInfo drive) : base(drive) {}
+        public SequentialScanner(DriveInfo drive, Func<INode, bool> filter) : base(drive, filter) {}
 
-        public override async Task<ScanResult[]> DoScan()
+        public override async Task<IList<INode>> DoScan()
         {
             return await Task.Run(() =>
             {
-                ScanResult[] results = new ScanResult[_ntfsReaders.Length];
+                IList<INode> nodes = new List<INode>();
+                DriveInfo drive = _drive.GetDriveInfoWithDiskNameAsLetter();
+                var nftReader = new NtfsReader(drive, RetrieveMode.Minimal);
 
-                for (int i = 0; i < _ntfsReaders.Length; ++i)
+                Stopwatch sw = Stopwatch.StartNew();
+                foreach (INode data in nftReader.GetNodes(_drive.Name))
                 {
-                    ScanResult scanRes = new ScanResult(_drives[i]);
+                    if ((data.Attributes & Attributes.Directory) != 0)
+                        continue;
 
-                    IEnumerable<INode> newNodes = _ntfsReaders[i].GetNodes(_drives[i].Name);
-                    scanRes.AddFiles(newNodes);
+                    nodes.Add(data);
                 }
+                sw.Stop();
 
-                return results;
+                Console.WriteLine($"DoScan took: {sw.Elapsed}");
+                return nodes;
             });
         }
     }

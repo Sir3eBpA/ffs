@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Filesystem.Ntfs;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -31,34 +32,16 @@ namespace FFS.Services.FileSystemScanner
             return _supportedFileSystems.Contains(drive.DriveFormat);
         }
 
-        public async Task<ScanResult[]> Scan(DriveInfo[] drives, ScanOption scanOption = ScanOption.Sequential)
+        public async Task<IList<INode>> Scan(DriveInfo drive, Func<INode, bool> filter = null)
         {
             // Spotted illegal drive
-            if (drives.Any(x => x == null))
+            if (null == drive)
             {
-                throw new ArgumentException("Contains invalid drive name");
+                throw new ArgumentNullException("drive");
             }
 
-            if (drives.Length == 0)
-            {
-                return null;
-            }
-
-            var scanner = CreateScanner(drives, scanOption);
+            var scanner = new SequentialScanner(drive, filter);
             return await scanner.DoScan();
-        }
-
-        private ScannerBase CreateScanner(DriveInfo[] drives, ScanOption scanOption)
-        {
-            switch (scanOption)
-            {
-                case ScanOption.Sequential: return new SequentialScanner(drives);
-                default:
-                {
-                    Log.Logger.Information($"Cannot find scanner of type {scanOption} using {nameof(SequentialScanner)} instead");
-                    return new SequentialScanner(drives);
-                }
-            }
         }
     }
 }

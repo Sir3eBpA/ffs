@@ -1,9 +1,9 @@
-﻿<Application x:Class="FFS.App1"
+﻿<Application x:Class="FFS.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:FFS"
-             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-             StartupUri="Views/MainWindow.xaml">
+             xmlns:converter="clr-namespace:FFS.Converters"
+             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -12,6 +12,13 @@
             </ResourceDictionary.MergedDictionaries>
 
             <Thickness x:Key="{x:Static adonisUi:Dimensions.BorderThickness}">2</Thickness>
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+            <Style x:Key="{x:Type ListView}" TargetType="ListView" BasedOn="{StaticResource {x:Type ListView}}">
+                <Setter Property="Background" Value="Black"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
 
         </ResourceDictionary>
     </Application.Resources>

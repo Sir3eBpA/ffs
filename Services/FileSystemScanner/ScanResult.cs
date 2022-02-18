@@ -8,6 +8,7 @@ namespace FFS.Services.FileSystemScanner
     {
         public DriveInfo Drive { get; }
         public List<INode> ScannedFiles { get; }
+        public int FilesCount => ScannedFiles?.Count ?? 0;
 
         public ScanResult(DriveInfo drive)
         {
