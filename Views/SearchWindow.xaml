@@ -4,6 +4,7 @@
                              xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
                              xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
                              xmlns:converters="clr-namespace:FFS.Converters"
+                             xmlns:controls="clr-namespace:FFS.Controls"
                              Title="Fast File Search"
                              WindowStartupLocation="CenterScreen"
                              MinHeight="400"
@@ -84,21 +85,37 @@
                     <Label FontSize="16" Content="{Binding Files.Count, Mode=OneWay, FallbackValue=12345}"/>
                 </StackPanel>
                 
-                <ListView Grid.Row="2" 
-                              Margin="0 10 0 0"
-                              VerticalContentAlignment="Top"
-                              VirtualizingPanel.ScrollUnit="Pixel"
-                              VirtualizingStackPanel.VirtualizationMode="Recycling"
-                              VirtualizingPanel.CacheLength="1,1"
-                              VirtualizingPanel.IsVirtualizing="True"
-                              ScrollViewer.CanContentScroll="True"
-                              ScrollViewer.VerticalScrollBarVisibility="Visible"
-                              ItemsSource="{Binding Files}">
+                <ListView Grid.Row="1" 
+                          Margin="0 10 0 0"
+                          VerticalContentAlignment="Top"
+                          VirtualizingPanel.ScrollUnit="Item"
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                          VirtualizingPanel.CacheLength="1,1"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          ScrollViewer.CanContentScroll="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ItemsSource="{Binding Files, Mode=OneWay}">
 
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="FilePath" Width="520" DisplayMemberBinding="{Binding FullName}" />
-                            <GridViewColumn Header="Size" Width="50" DisplayMemberBinding="{Binding Size}" />
+                            <GridViewColumn Width="50">
+                                <GridViewColumnHeader SizeChanged="FilesView_OnFileIconColumnSizeChanged"></GridViewColumnHeader>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding FullName, Converter={StaticResource ExtensionToIconConverter}, Mode=OneWay}"></Image>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn>
+                                <GridViewColumnHeader Content="File path" MinWidth="200"/>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <controls:FastTextBlock Text="{Binding FullName, Mode=OneTime}" Foreground="White"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Type" Width="50" DisplayMemberBinding="{Binding Extension, Mode=OneTime}" />
+                            <GridViewColumn Header="Size" Width="50" DisplayMemberBinding="{Binding Size, Mode=OneTime}" />
                         </GridView>
                     </ListView.View>
 

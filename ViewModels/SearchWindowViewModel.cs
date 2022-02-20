@@ -45,7 +45,7 @@ namespace FFS.ViewModels
         }
         private ObservableCollection<INode> _files;
 
-        private IFSScanner _fsScanner;
+        private readonly IFSScanner _fsScanner;
         private readonly object _collectionOfObjectsSync = new object();
         
         public SearchWindowViewModel(IFSScanner fsScanner)
