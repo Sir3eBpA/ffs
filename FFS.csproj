@@ -23,7 +23,11 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Assets\Icons\drive_icon.png" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="NtfsReader">
       <HintPath>.\NtfsReader.dll</HintPath>
@@ -45,11 +49,13 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Services\QueryBuilder\" />
     <Folder Include="Tests\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Icons\drive_icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Icons\plus.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

@@ -27,7 +27,7 @@ namespace FFS
             SetupDI();
             SetupLogger();
 
-            SearchWindow window = new SearchWindow() {DataContext = DI.GetService<SearchWindowViewModel>()} ;
+            MainWindow window = new MainWindow() {DataContext = DI.GetService<MainWindowViewModel>()};
             window.Show();
         }
 
@@ -35,8 +35,12 @@ namespace FFS
         {
             ServiceCollection services = new ServiceCollection();
 
+            // Singletons
             services.AddSingleton<IFSScanner, NTFSScannerService>();
-            services.AddSingleton<SearchWindowViewModel>();
+            services.AddSingleton<MainWindowViewModel>();
+
+            // Transient services
+            services.AddTransient<DiskScanViewModel>();
 
             DI = services.BuildServiceProvider();
         }

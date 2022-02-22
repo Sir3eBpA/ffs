@@ -20,5 +20,10 @@ namespace FFS.Utils
 
             return new DriveInfo(letter);
         }
+
+        public static int GetUsagePercentage(this DriveInfo drive)
+        {
+            return (int)(100 * (double)drive.TotalFreeSpace / drive.TotalSize);
+        }
     }
 }

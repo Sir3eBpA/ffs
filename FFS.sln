@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFS", "FFS.csproj", "{EE02E683-3E9D-4877-A6D4-FF200598134A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFS", "FFS.csproj", "{EE02E683-3E9D-4877-A6D4-FF200598134A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NtfsReader", "..\NtfsReader\NtfsReader.csproj", "{DBACEFC5-0234-4317-B096-F212ECAE1DD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{EE02E683-3E9D-4877-A6D4-FF200598134A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE02E683-3E9D-4877-A6D4-FF200598134A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE02E683-3E9D-4877-A6D4-FF200598134A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBACEFC5-0234-4317-B096-F212ECAE1DD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBACEFC5-0234-4317-B096-F212ECAE1DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBACEFC5-0234-4317-B096-F212ECAE1DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBACEFC5-0234-4317-B096-F212ECAE1DD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

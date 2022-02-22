@@ -1,0 +1,41 @@
+﻿<adonisControls:AdonisWindow x:Class="FFS.Views.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+                             xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+                             xmlns:vms="clr-namespace:FFS.ViewModels"
+                             xmlns:views="clr-namespace:FFS.Views"
+                             Title="Fast File Search"
+                             WindowStartupLocation="CenterScreen"
+                             MinHeight="400"
+                             MinWidth="600">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vms:DiskScanViewModel}">
+            <views:DiscScan/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <GroupBox Grid.Row="0">
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+
+                <TextBlock Margin="0 0 10 0" FontSize="16">Light Theme</TextBlock>
+                <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}">
+                    <ToggleButton.LayoutTransform>
+                        <ScaleTransform ScaleX="1.6" ScaleY="1.6"/>
+                    </ToggleButton.LayoutTransform>
+                </ToggleButton>
+            </StackPanel>
+        </GroupBox>
+
+        <ContentPresenter Grid.Row="1" Content="{Binding CurrentPage, Mode=OneWay}">
+
+        </ContentPresenter>
+    </Grid>
+
+</adonisControls:AdonisWindow>
