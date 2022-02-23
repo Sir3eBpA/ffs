@@ -17,6 +17,8 @@ namespace FFS.ViewModels
 {
     public class DiskScanViewModel : ViewModelBase
     {
+        public event Action<ScanResult> ScanCompleted;
+
         public AsyncRelayCommand QueryCommand { get; }
 
         public bool IsExecutingQuery
@@ -75,23 +77,22 @@ namespace FFS.ViewModels
 
             IsExecutingQuery = true;
 
-            DriveInfo[] drives = SystemDrivesRetriever.RetrieveFixed(new List<string>() { FileSystemDb.NTFS });
+            // grab all selected scanned drives and extract DriveInfo
+            _model.ScannedDrives = ScannableDrives.Where(x => x.IsChecked).Select(x => x.Drive).ToList();
 
-            _model.ScannedDrives = new List<DriveInfo>(drives);
-
-            List<INode> results = await _fsScanner.Scan(drives[2]) as List<INode> ?? new List<INode>();
+            List<INode> results = await _fsScanner.Scan(_model.ScannedDrives) as List<INode> ?? new List<INode>();
             _model.Files = results;
 
-            for (int i = 0; i < drives.Length; ++i)
+            for (int i = 0; i < _model.ScannedDrives.Count; ++i)
             {
-                Log.Information($"Inspected drive: {drives[i].Name}");
+                Log.Information($"Inspected drive: {_model.ScannedDrives[i].Name}");
             }
             Log.Information($"Retrieved: {results.Count}");
-
-            results.Clear();
-
+            
             IsExecutingQuery = false;
             GC.Collect();
+
+            ScanCompleted?.Invoke(_model);
         }
     }
 }

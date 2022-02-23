@@ -28,7 +28,16 @@ namespace FFS.ViewModels
         
         public MainWindowViewModel()
         {
-            CurrentPage = App.DI.GetService<DiskScanViewModel>();
+            DiskScanViewModel discScanVM = App.DI.GetService<DiskScanViewModel>();
+            if (null != discScanVM)
+            {
+                discScanVM.ScanCompleted += DiscScanVMOnScanCompleted;
+                CurrentPage = discScanVM;
+            }
+        }
+
+        private void DiscScanVMOnScanCompleted(ScanResult res)
+        {
         }
     }
 }
