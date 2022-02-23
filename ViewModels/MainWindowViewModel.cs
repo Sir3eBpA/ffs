@@ -38,6 +38,7 @@ namespace FFS.ViewModels
 
         private void DiscScanVMOnScanCompleted(ScanResult res)
         {
+            CurrentPage = App.DI.GetService<QueryPanelViewModel>();
         }
     }
 }

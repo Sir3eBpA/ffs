@@ -42,6 +42,7 @@ namespace FFS
 
             // Transient services
             services.AddTransient<DiskScanViewModel>();
+            services.AddTransient<QueryPanelViewModel>();
 
             DI = services.BuildServiceProvider();
         }

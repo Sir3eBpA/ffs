@@ -18,7 +18,7 @@ namespace FFS.Views
     /// <summary>
     /// Interaction logic for QueryPanel.xaml
     /// </summary>
-    public partial class QueryPanel : Page
+    public partial class QueryPanel : UserControl
     {
         public QueryPanel()
         {

@@ -13,6 +13,9 @@
         <DataTemplate DataType="{x:Type vms:DiskScanViewModel}">
             <views:DiscScan/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:QueryPanelViewModel}">
+            <views:QueryPanel/>
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
