@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using AdonisUI.Extensions;
 using FFS.Services.FileSystemScanner;
 using FFS.Services.FileSystemScanner.NTFS;
 using FFS.ViewModels;

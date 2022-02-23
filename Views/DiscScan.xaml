@@ -38,7 +38,10 @@
                                           Height="80" 
                                           BorderBrush="Black"
                                           BorderThickness="3">
-                                        <ToggleButton IsChecked="{Binding IsChecked}">
+                                        <ToggleButton IsChecked="{Binding IsChecked}" 
+                                                      Style="{StaticResource DiskToggleButton}"
+                                                      extensions:CornerRadiusExtension.CornerRadius="4"
+                                                      extensions:CursorSpotlightExtension.RelativeSpotlightSize="0">
 
                                             <Grid HorizontalAlignment="Stretch">
                                                 <Grid.RowDefinitions>
@@ -78,7 +81,9 @@
                         Background="Green"
                         BorderBrush="DarkGreen"
                         BorderThickness="2"
-                        Margin="0 20 0 0">
+                        Margin="0 20 0 0"
+                        extensions:CornerRadiusExtension.CornerRadius="4"
+                        extensions:CursorSpotlightExtension.BackgroundBrush="OliveDrab">
                     Scan
                 </Button>
             </StackPanel>

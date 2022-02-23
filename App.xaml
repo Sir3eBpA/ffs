@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:FFS"
              xmlns:converter="clr-namespace:FFS.Converters"
-             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI">
+             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             xmlns:extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -22,6 +24,26 @@
             <Style x:Key="{x:Type ListView}" TargetType="ListView" BasedOn="{StaticResource {x:Type ListView}}">
                 <Setter Property="Background" Value="Black"/>
                 <Setter Property="Foreground" Value="White"/>
+            </Style>
+
+            <!--Custom disk toggle button style-->
+            <Style x:Key="DiskToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+                <Style.Triggers>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="DarkOliveGreen"/>
+                        <Setter Property="BorderBrush" Value="DarkOliveGreen"/>
+                    </Trigger>
+
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="Background" Value="DarkGreen"/>
+                        <Setter Property="BorderBrush" Value="DarkOliveGreen"/>
+                    </Trigger>
+
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="BorderBrush" Value="DarkOliveGreen"/>
+                        <Setter Property="extensions:CursorSpotlightExtension.BorderBrush" Value="DarkOliveGreen"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
 
         </ResourceDictionary>
