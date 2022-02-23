@@ -14,6 +14,6 @@ namespace FFS.Services.FileSystemScanner.NTFS
 
         bool IsSupported(DriveInfo drive);
 
-        Task<IList<INode>> Scan(DriveInfo drives, Func<INode, bool> filter = null);
+        Task<IList<INode>> Scan(IList<DriveInfo> drives, Func<INode, bool> filter = null);
     }
 }

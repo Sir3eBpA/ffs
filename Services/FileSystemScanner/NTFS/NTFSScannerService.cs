@@ -32,7 +32,7 @@ namespace FFS.Services.FileSystemScanner
             return _supportedFileSystems.Contains(drive.DriveFormat);
         }
 
-        public async Task<IList<INode>> Scan(DriveInfo drive, Func<INode, bool> filter = null)
+        public async Task<IList<INode>> Scan(IList<DriveInfo> drive, Func<INode, bool> filter = null)
         {
             // Spotted illegal drive
             if (null == drive)

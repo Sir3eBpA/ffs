@@ -12,17 +12,17 @@ namespace FFS.Services.FileSystemScanner.Scanners
 {
     public abstract class ScannerBase
     {
-        protected DriveInfo _drive;
+        protected IList<DriveInfo> _drives;
         protected Func<INode, bool> _filter;
 
-        protected ScannerBase(DriveInfo drive)
+        protected ScannerBase(IList<DriveInfo> drives)
         {
-            _drive = drive;
+            _drives = drives;
         }
 
-        protected ScannerBase(DriveInfo drive, Func<INode, bool> filter)
+        protected ScannerBase(IList<DriveInfo> drives, Func<INode, bool> filter)
         {
-            _drive = drive;
+            _drives = drives;
             _filter = filter;
         }
 
