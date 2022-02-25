@@ -30,21 +30,55 @@ namespace FFS.Services.QueryProcessor
 
             string finalQuery = query.Trim();
             bool searchExtension = finalQuery[0] == '.';
+            var finalQuerySpan = finalQuery.AsSpan();
 
             foreach (INode file in files)
             {
-                if (searchExtension && file.Extension.Contains(query))
+                if (searchExtension)
                 {
-                    result.Add(file);
+                    if (file.Extension.Contains(query))
+                    {
+                        result.Add(file);
+                    }
                 }
                 else
                 {
-                    if(file.Name.Contains(query))
+                    if(IsMatchingFilenameNoExtension(query, file, finalQuerySpan))
                         result.Add(file);
                 }
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Check filename matching the query excluding any extensions
+        /// </summary>
+        /// <param name="query">Query request, either extension or file name</param>
+        /// <param name="file">File MFT reference node</param>
+        /// <param name="finalQuerySpan">Span of the final 'normalized' query we received</param>
+        /// <returns>TRUE if file matches filters</returns>
+        private bool IsMatchingFilenameNoExtension(string query, INode file, ReadOnlySpan<char> finalQuerySpan)
+        {
+            bool add = false;
+            ReadOnlySpan<char> fileName = file.Name.AsSpan();
+            // check if there's any extension in this file name
+            int extensionStart = fileName.IndexOf('.');
+            if (extensionStart > -1)
+            {
+                ReadOnlySpan<char> fileNameNoExtension = fileName.Slice(0, extensionStart);
+                string str = fileNameNoExtension.ToString();
+                Console.WriteLine(str);
+                if (fileNameNoExtension.Contains(finalQuerySpan, StringComparison.InvariantCulture))
+                    add = true;
+            }
+            else // no extension
+            {
+                if (file.Name.Contains(query))
+                    add = true;
+            }
+
+            return add;
         }
     }
 }

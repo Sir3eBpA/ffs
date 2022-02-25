@@ -53,8 +53,11 @@ namespace FFS.ViewModels
 
             SimpleTextQueryProcessor textQuery = new SimpleTextQueryProcessor();
             QueryValidationResult res = textQuery.IsValid(Query);
-            Files?.Clear();
-            Files = await Task.Run(() => textQuery.Process(Query, _model.Files));
+            if (res.IsValid)
+            {
+                Files?.Clear();
+                Files = await Task.Run(() => textQuery.Process(Query, _model.Files));
+            }
 
             IsExecutingQuery = false;
         }
