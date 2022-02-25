@@ -25,7 +25,6 @@ namespace FFS.ViewModels
         }
         private ViewModelBase _currentPage;
 
-        
         public MainWindowViewModel()
         {
             DiskScanViewModel discScanVM = App.DI.GetService<DiskScanViewModel>();
@@ -38,7 +37,12 @@ namespace FFS.ViewModels
 
         private void DiscScanVMOnScanCompleted(ScanResult res)
         {
-            CurrentPage = App.DI.GetService<QueryPanelViewModel>();
+            QueryPanelViewModel queryPanel = App.DI.GetService<QueryPanelViewModel>();
+            if (null != queryPanel)
+            {
+                queryPanel.SetData(res);
+                CurrentPage = queryPanel;
+            }
         }
     }
 }

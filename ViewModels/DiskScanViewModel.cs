@@ -19,7 +19,7 @@ namespace FFS.ViewModels
     {
         public event Action<ScanResult> ScanCompleted;
 
-        public AsyncRelayCommand QueryCommand { get; }
+        public AsyncRelayCommand ScanCommand { get; }
 
         public bool IsExecutingQuery
         {
@@ -34,10 +34,7 @@ namespace FFS.ViewModels
         public ObservableCollection<ScannableDrive> ScannableDrives
         {
             get => _scannableDrives;
-            private set
-            {
-                SetProperty(ref _scannableDrives, value);
-            }
+            private set => SetProperty(ref _scannableDrives, value);
         }
         private ObservableCollection<ScannableDrive> _scannableDrives;
 
@@ -51,7 +48,7 @@ namespace FFS.ViewModels
             IsExecutingQuery = false;
             _fsScanner = fsScanner;
 
-            QueryCommand = new AsyncRelayCommand(ExecuteQuery);
+            ScanCommand = new AsyncRelayCommand(ExecuteQuery);
 
             BuildScannableDrivesList();
         }
