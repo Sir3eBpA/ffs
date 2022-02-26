@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
       xmlns:controls="clr-namespace:FFS.Controls"
+      xmlns:viewModels="clr-namespace:FFS.ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
@@ -93,7 +94,7 @@
                             <GridViewColumnHeader Content="File path" MinWidth="200"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <controls:FastTextBlock Text="{Binding FullName, Mode=OneTime}" Foreground="White"/>
+                                    <controls:FastTextBlock Text="{Binding FullName, Mode=OneTime}" Foreground="White" HighlightColor="DarkOrange"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

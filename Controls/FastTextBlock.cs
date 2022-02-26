@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using FFS.Services.QueryProcessor;
+using Serilog;
 
 namespace FFS.Controls
 {
@@ -27,25 +30,60 @@ namespace FFS.Controls
         {
         }
 
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
                 "Text",
                 typeof(string),
                 typeof(FastTextBlock),
                 new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.AffectsMeasure,
                     (o, e) => ((FastTextBlock)o).TextPropertyChanged((string)e.NewValue)));
 
-        public static readonly DependencyProperty ForegroundProperty = 
-            DependencyProperty.Register(
-                "Foreground", 
+        public static readonly DependencyProperty ForegroundProperty = DependencyProperty.Register(
+                "Foreground",
                 typeof(Brush),
                 typeof(FastTextBlock),
-                new PropertyMetadata(new SolidColorBrush(Colors.White)));
+                new FrameworkPropertyMetadata(
+                    new SolidColorBrush(Colors.White), 
+                    FrameworkPropertyMetadataOptions.AffectsMeasure, 
+                    (o, e) => ((FastTextBlock)o).OnForegroundColorPropertyChanged((Brush)e.NewValue)));
+
+        public static readonly DependencyProperty HighlightColorProperty = DependencyProperty.Register(
+                "HighlightColor",
+                typeof(Brush),
+                typeof(FastTextBlock),
+                new FrameworkPropertyMetadata(
+                    new SolidColorBrush(Colors.Red),
+                    FrameworkPropertyMetadataOptions.AffectsMeasure,
+                    (o, e) => ((FastTextBlock)o).OnHighlightColorPropertyChanged((Brush)e.NewValue)));
+
+        private void OnHighlightColorPropertyChanged(Brush b)
+        {
+            HighlightColor = b;
+            if(null != _formattedText)
+                BuildTextHighlight();
+        }
+
+        private void OnForegroundColorPropertyChanged(Brush b)
+        {
+            Foreground = b;
+            if(null != _formattedText)
+                _formattedText.SetForegroundBrush(b);
+        }
+
+        public Brush HighlightColor
+        {
+            get { return (Brush)GetValue(HighlightColorProperty); }
+            set { SetValue(HighlightColorProperty, value); }
+        }
 
         public Brush Foreground
         {
             get { return (Brush)GetValue(ForegroundProperty); }
             set { SetValue(ForegroundProperty, value); }
+        }
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
         }
 
         private void TextPropertyChanged(string text)
@@ -63,13 +101,26 @@ namespace FFS.Controls
                 Foreground,
                 VisualTreeHelper.GetDpi(this).PixelsPerDip
             );
+
+            BuildTextHighlight();
         }
 
-
-        public string Text
+        private void BuildTextHighlight()
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            switch (Queries.ActiveQueryProcessor)
+            {
+                case SimpleTextQueryProcessor:
+                    int matchIndex = _formattedText.Text.LastIndexOf(Queries.ActiveQuery, StringComparison.InvariantCulture);
+                    if (matchIndex == -1)
+                    {
+                        Log.Error($"Cannot find any match for string {_formattedText.Text} from query {Queries.ActiveQuery}! Highlight aborted");
+                        return;
+                    }
+
+                    _formattedText.SetFontWeight(FontWeights.Black, matchIndex, Queries.ActiveQuery.Length);
+                    _formattedText.SetForegroundBrush(HighlightColor, matchIndex, Queries.ActiveQuery.Length);
+                break;
+            }
         }
 
         protected override void OnRender(DrawingContext drawingContext)
