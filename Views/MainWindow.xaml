@@ -28,7 +28,7 @@
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
 
                 <TextBlock Margin="0 0 10 0" FontSize="16">Light Theme</TextBlock>
-                <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}">
+                <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}" IsChecked="{Binding IsLightThemeActive}">
                     <ToggleButton.LayoutTransform>
                         <ScaleTransform ScaleX="1.6" ScaleY="1.6"/>
                     </ToggleButton.LayoutTransform>

@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Filesystem.Ntfs;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
+using System.Windows;
+using AdonisUI;
 using FFS.Models;
 using FFS.Services;
 using FFS.Services.FileSystemScanner;
@@ -33,6 +36,25 @@ namespace FFS.ViewModels
                 discScanVM.ScanCompleted += DiscScanVMOnScanCompleted;
                 CurrentPage = discScanVM;
             }
+        }
+
+        [SupportedOSPlatform("windows7.0")]
+        public bool IsLightThemeActive
+        {
+            get => _isLightThemeActive;
+            set
+            {
+                SetProperty(ref _isLightThemeActive, value);
+                UpdateActiveTheme();
+            }
+        }
+        private bool _isLightThemeActive;
+
+        [SupportedOSPlatform("windows7.0")]
+        private void UpdateActiveTheme()
+        {
+            Uri theme = IsLightThemeActive ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme;
+            ResourceLocator.SetColorScheme(Application.Current.Resources, theme);
         }
 
         private void DiscScanVMOnScanCompleted(ScanResult res)
