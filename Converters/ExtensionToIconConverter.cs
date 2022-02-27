@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +21,7 @@ namespace FFS.Converters
 
         #region IValueConverter Members
 
+        [SupportedOSPlatform("windows")]
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             string inData = (string)value;
@@ -32,11 +34,9 @@ namespace FFS.Converters
                 if (_iconsCache.TryGetValue(ex, out BitmapSource cachedIcon))
                     return cachedIcon;
 
-                using (Icon ico = Icon.ExtractAssociatedIcon(inData))
-                { 
-                    BitmapSource icon = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                    _iconsCache.Add(ex, icon);
-                }
+                using Icon ico = Icon.ExtractAssociatedIcon(inData);
+                BitmapSource icon = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                _iconsCache.Add(ex, icon);
             }
 
             return null;
