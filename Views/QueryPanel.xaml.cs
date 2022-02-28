@@ -20,6 +20,9 @@ namespace FFS.Views
     /// </summary>
     public partial class QueryPanel : UserControl
     {
+        private const int FileColumnWidth = 50;
+        private const int FullNameColumnWidth = 200;
+
         public QueryPanel()
         {
             InitializeComponent();
@@ -28,10 +31,19 @@ namespace FFS.Views
         private void FilesView_OnFileIconColumnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             // Lock files view column to constant size
-            if (e.NewSize.Width <= 50 || e.NewSize.Width >= 50)
+            if (e.NewSize.Width <= FileColumnWidth || e.NewSize.Width >= FileColumnWidth)
             {
                 e.Handled = true;
-                ((GridViewColumnHeader)sender).Column.Width = 50;
+                ((GridViewColumnHeader)sender).Column.Width = FileColumnWidth;
+            }
+        }
+
+        private void FileView_OnFullNameColumnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width <= FullNameColumnWidth)
+            {
+                e.Handled = true;
+                ((GridViewColumnHeader)sender).Column.Width = FullNameColumnWidth;
             }
         }
     }

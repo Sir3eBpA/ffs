@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO.Filesystem.Ntfs;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,13 @@ namespace FFS.ViewModels
             set => SetProperty(ref _files, value);
         }
         private ObservableCollection<INode> _files;
+
+        public long ScanDurationMS
+        {
+            get => _scanDurationMS;
+            set => SetProperty(ref _scanDurationMS, value);
+        }
+        private long _scanDurationMS;
 
         public bool IsExecutingQuery
         {
@@ -45,6 +53,7 @@ namespace FFS.ViewModels
         {
             _files = new ObservableCollection<INode>();
             QueryCommand = new AsyncRelayCommand(DoQuery);
+            ScanDurationMS = 0;
         }
 
         private async Task DoQuery()
@@ -53,6 +62,8 @@ namespace FFS.ViewModels
 
             SimpleTextQueryProcessor textQuery = new SimpleTextQueryProcessor();
             QueryValidationResult res = textQuery.IsValid(Query);
+
+            Stopwatch sw = Stopwatch.StartNew();
             if (res.IsValid)
             {
                 Queries.SetActiveQuery(Query, textQuery);
@@ -60,6 +71,7 @@ namespace FFS.ViewModels
                 Files?.Clear();
                 Files = await Task.Run(() => textQuery.Process(Query, _model.Files));
             }
+            ScanDurationMS = sw.ElapsedMilliseconds;
 
             IsExecutingQuery = false;
         }

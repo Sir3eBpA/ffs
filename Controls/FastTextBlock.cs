@@ -6,7 +6,10 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
+using FFS.Services;
 using FFS.Services.QueryProcessor;
 using Serilog;
 
@@ -37,21 +40,19 @@ namespace FFS.Controls
                 new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.AffectsMeasure,
                     (o, e) => ((FastTextBlock)o).TextPropertyChanged((string)e.NewValue)));
 
-        public static readonly DependencyProperty ForegroundProperty = DependencyProperty.Register(
-                "Foreground",
-                typeof(Brush),
-                typeof(FastTextBlock),
-                new FrameworkPropertyMetadata(
-                    new SolidColorBrush(Colors.White), 
-                    FrameworkPropertyMetadataOptions.AffectsMeasure, 
-                    (o, e) => ((FastTextBlock)o).OnForegroundColorPropertyChanged((Brush)e.NewValue)));
+        public static readonly DependencyProperty ForegroundProperty = TextElement.ForegroundProperty.AddOwner(
+            typeof(FastTextBlock), 
+            new FrameworkPropertyMetadata(
+                Brushes.White,
+                FrameworkPropertyMetadataOptions.AffectsMeasure,
+                (o, e) => ((FastTextBlock)o).OnForegroundColorPropertyChanged((Brush)e.NewValue)));
 
         public static readonly DependencyProperty HighlightColorProperty = DependencyProperty.Register(
                 "HighlightColor",
                 typeof(Brush),
                 typeof(FastTextBlock),
                 new FrameworkPropertyMetadata(
-                    new SolidColorBrush(Colors.Red),
+                    Brushes.Red,
                     FrameworkPropertyMetadataOptions.AffectsMeasure,
                     (o, e) => ((FastTextBlock)o).OnHighlightColorPropertyChanged((Brush)e.NewValue)));
 
@@ -64,9 +65,8 @@ namespace FFS.Controls
 
         private void OnForegroundColorPropertyChanged(Brush b)
         {
-            Foreground = b;
             if(null != _formattedText)
-                _formattedText.SetForegroundBrush(b);
+                TextPropertyChanged(_formattedText.Text);
         }
 
         public Brush HighlightColor
@@ -74,12 +74,7 @@ namespace FFS.Controls
             get { return (Brush)GetValue(HighlightColorProperty); }
             set { SetValue(HighlightColorProperty, value); }
         }
-
-        public Brush Foreground
-        {
-            get { return (Brush)GetValue(ForegroundProperty); }
-            set { SetValue(ForegroundProperty, value); }
-        }
+        
         public string Text
         {
             get { return (string)GetValue(TextProperty); }
@@ -91,14 +86,14 @@ namespace FFS.Controls
             var typeface = new Typeface(
                 new FontFamily("Times New Roman"),
                 FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
-
+            
             _formattedText = new FormattedText(
                 text, 
                 CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
                 typeface,
                 15,
-                Foreground,
+                TextElement.GetForeground(this),
                 VisualTreeHelper.GetDpi(this).PixelsPerDip
             );
 

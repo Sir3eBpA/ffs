@@ -66,8 +66,8 @@ namespace FFS.ViewModels
         [SupportedOSPlatform("windows7.0")]
         private void UpdateActiveTheme()
         {
-            Uri theme = IsLightThemeActive ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme;
-            ResourceLocator.SetColorScheme(Application.Current.Resources, theme);
+            Theme t = IsLightThemeActive ? Theme.Light : Theme.Dark;
+            ThemesService.ApplyTheme(t);
         }
 
         private void DiscScanVMOnScanCompleted(ScanResult res)
