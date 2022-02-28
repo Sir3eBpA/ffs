@@ -24,19 +24,12 @@ namespace FFS.ViewModels
             set
             {
                 SetProperty(ref _currentPage, value);
+                GoBackCommand?.NotifyCanExecuteChanged();
             }
         }
         private ViewModelBase _currentPage;
 
-        public MainWindowViewModel()
-        {
-            DiskScanViewModel discScanVM = App.DI.GetService<DiskScanViewModel>();
-            if (null != discScanVM)
-            {
-                discScanVM.ScanCompleted += DiscScanVMOnScanCompleted;
-                CurrentPage = discScanVM;
-            }
-        }
+        public RelayCommand GoBackCommand { get; }
 
         [SupportedOSPlatform("windows7.0")]
         public bool IsLightThemeActive
@@ -49,6 +42,26 @@ namespace FFS.ViewModels
             }
         }
         private bool _isLightThemeActive;
+
+        private Stack<ViewModelBase> _activePages;
+
+        public MainWindowViewModel()
+        {
+            DisplayDiscScanPage();
+
+            GoBackCommand = new RelayCommand(GoBack, () => _activePages.Count > 0);
+            _activePages = new Stack<ViewModelBase>();
+        }
+
+        private void DisplayDiscScanPage()
+        {
+            DiskScanViewModel discScanVM = App.DI.GetService<DiskScanViewModel>();
+            if (null != discScanVM)
+            {
+                discScanVM.ScanCompleted += DiscScanVMOnScanCompleted;
+                CurrentPage = discScanVM;
+            }
+        }
 
         [SupportedOSPlatform("windows7.0")]
         private void UpdateActiveTheme()
@@ -63,8 +76,28 @@ namespace FFS.ViewModels
             if (null != queryPanel)
             {
                 queryPanel.SetData(res);
+                _activePages.Push(queryPanel);
                 CurrentPage = queryPanel;
             }
+        }
+
+        private void GoBack()
+        {
+            if(_activePages.Count == 0)
+                return;
+
+            ViewModelBase page = _activePages.Pop();
+            page.OnDispose();
+
+            if (_activePages.Count > 0)
+            {
+                CurrentPage = _activePages.Peek();
+            }
+            else
+            {
+                DisplayDiscScanPage();
+            }
+            GoBackCommand.NotifyCanExecuteChanged();
         }
     }
 }

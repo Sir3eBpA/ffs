@@ -21,13 +21,6 @@ namespace FFS.ViewModels
         }
         private ObservableCollection<INode> _files;
 
-        public ObservableCollection<FileNodeHighlight> Highlights
-        {
-            get => _highlights;
-            set => SetProperty(ref _highlights, value);
-        }
-        private ObservableCollection<FileNodeHighlight> _highlights;
-
         public bool IsExecutingQuery
         {
             get => _isExecutingQuery;
@@ -66,17 +59,6 @@ namespace FFS.ViewModels
 
                 Files?.Clear();
                 Files = await Task.Run(() => textQuery.Process(Query, _model.Files));
-
-                Highlights = await Task.Run(() =>
-                {
-                    var data = new ObservableCollection<FileNodeHighlight>();
-                    for (int i = 0; i < _files.Count; i++)
-                    {
-                        var r = new Range(0, 5);
-                        data.Add(new FileNodeHighlight(r));
-                    }
-                    return data;
-                });
             }
 
             IsExecutingQuery = false;
@@ -86,6 +68,23 @@ namespace FFS.ViewModels
         {
             _model = mdl ?? throw new NullReferenceException("model");
             Files = new ObservableCollection<INode>(mdl.Files);
+        }
+
+        public override void OnDispose()
+        {
+            base.OnDispose();
+
+            if (null != _model)
+            {
+                _model.Files?.Clear();
+                _model.ScannedDrives?.Clear();
+            }
+            _model = null;
+
+            Files?.Clear();
+
+            IsExecutingQuery = false;
+            GC.Collect();
         }
 
         public struct FileNodeHighlight
