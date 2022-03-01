@@ -29,6 +29,13 @@ namespace FFS
             SetupLogger();
 
             MainWindow window = new MainWindow() {DataContext = DI.GetService<MainWindowViewModel>()};
+
+            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            if (version != null)
+                window.Title = $"FFS v{version.Major}.{version.Minor}.{version.Revision}";
+            else
+                window.Title = "FFS, no version?";
+
             window.Show();
         }
 
