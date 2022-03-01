@@ -26,8 +26,7 @@ namespace FFS.Services.FileSystemScanner.Scanners
 
                 foreach (DriveInfo driveInfo in _drives)
                 {
-                    DriveInfo drive = driveInfo.GetDriveInfoWithDiskNameAsLetter();
-                    NtfsReader nftReader = new NtfsReader(drive, RetrieveMode.Minimal);
+                    NtfsReader nftReader = new NtfsReader(driveInfo, RetrieveMode.Minimal);
 
                     Log.Logger.Information("Reading MFT took: " + sw.Elapsed);
                     foreach (INode data in nftReader.GetNodes(driveInfo.Name))

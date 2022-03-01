@@ -15,7 +15,7 @@ namespace FFS.Services.QueryProcessor
     {
         public QueryValidationResult IsValid(string query)
         {
-            if (null == query)
+            if (string.IsNullOrWhiteSpace(query))
                 return new QueryValidationResult(false, "Query is NULL");
 
             if (query.Length == 0)
@@ -26,14 +26,27 @@ namespace FFS.Services.QueryProcessor
 
         public ObservableCollection<INode> Process(string query, IList<INode> files)
         {
+            if (!IsValid(query).IsValid)
+                throw new ArgumentException("invalid query");
+
+            if (null == files)
+                throw new ArgumentNullException("files");
+
             ObservableCollection<INode> result = new ObservableCollection<INode>();
 
             string finalQuery = query.Trim();
             bool searchExtension = finalQuery[0] == '.';
+            bool addAll = finalQuery[0] == '*';
             var finalQuerySpan = finalQuery.AsSpan();
 
             foreach (INode file in files)
             {
+                if (addAll)
+                {
+                    result.Add(file);
+                    continue;
+                }
+
                 if (searchExtension)
                 {
                     if (file.Extension.Contains(query))

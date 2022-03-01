@@ -85,7 +85,10 @@ namespace FFS.Controls
         {
             var typeface = new Typeface(
                 new FontFamily("Times New Roman"),
-                FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
+                FontStyles.Normal,
+                FontWeights.Normal,
+                FontStretches.Normal
+            );
             
             _formattedText = new FormattedText(
                 text, 

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFS", "FFS.csproj", "{EE02E683-3E9D-4877-A6D4-FF200598134A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFSTests", "..\FFSTests\FFSTests.csproj", "{3F3EFAD2-75D8-4324-A0B6-2FB7DC8F9D6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EE02E683-3E9D-4877-A6D4-FF200598134A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE02E683-3E9D-4877-A6D4-FF200598134A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE02E683-3E9D-4877-A6D4-FF200598134A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F3EFAD2-75D8-4324-A0B6-2FB7DC8F9D6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F3EFAD2-75D8-4324-A0B6-2FB7DC8F9D6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F3EFAD2-75D8-4324-A0B6-2FB7DC8F9D6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F3EFAD2-75D8-4324-A0B6-2FB7DC8F9D6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
