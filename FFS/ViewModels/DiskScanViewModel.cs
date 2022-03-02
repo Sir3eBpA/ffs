@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.IO.Filesystem.Ntfs;
 using System.Linq;
@@ -34,8 +35,9 @@ namespace FFS.ViewModels
         public ObservableCollection<ScannableDrive> ScannableDrives
         {
             get => _scannableDrives;
-            private set => SetProperty(ref _scannableDrives, value);
+            set => SetProperty(ref _scannableDrives, value);
         }
+
         private ObservableCollection<ScannableDrive> _scannableDrives;
 
         private ScanResult _model;
@@ -48,7 +50,7 @@ namespace FFS.ViewModels
             IsExecutingQuery = false;
             _fsScanner = fsScanner;
 
-            ScanCommand = new AsyncRelayCommand(ExecuteQuery);
+            ScanCommand = new AsyncRelayCommand(ExecuteQuery, () => ScannableDrives.Any(x => x.IsChecked));
 
             BuildScannableDrivesList();
         }
@@ -60,8 +62,15 @@ namespace FFS.ViewModels
             DriveInfo[] ntfsDrives = SystemDrivesRetriever.RetrieveFixed(new List<string>() { FileSystemDb.NTFS });
             foreach (DriveInfo drive in ntfsDrives)
             {
-                _scannableDrives.Add(new ScannableDrive(drive));
+                var scannableDrive = new ScannableDrive(drive);
+                scannableDrive.CheckedChanged += ScannableDriveOnCheckedChanged;
+                _scannableDrives.Add(scannableDrive);
             }
+        }
+
+        private void ScannableDriveOnCheckedChanged(bool newValue)
+        {
+            ScanCommand.NotifyCanExecuteChanged();
         }
 
         private async Task ExecuteQuery()
