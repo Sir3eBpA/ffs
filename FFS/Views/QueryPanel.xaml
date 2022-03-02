@@ -64,14 +64,34 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Label FontSize="14" Margin="10 0 5 5" Foreground="DarkGray" Content="{Binding ScanDurationMS, Mode=OneWay, FallbackValue=123456789}" ContentStringFormat="Search duration: {0} ms"/>
+            <Grid Grid.Row="0" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="5 0 0 0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Height="40" 
+                            Width="40"
+                            Margin="0 0 5 0" 
+                            Command="{Binding ShowInExplorerCommand}"
+                            ToolTip="Show selected file in explorer">
+                        <Image Source="../Assets/Icons/open_folder.png"/>
+                    </Button>
+                    <Button Height="40" 
+                            Width="40"
+                            Margin="0 0 5 0"
+                            Command="{Binding OpenCommand}"
+                            ToolTip="Open selected file using associated software">
+                        <Image Source="../Assets/Icons/launch.png"/>
+                    </Button>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right">
+                    <Label FontSize="14" Margin="10 0 5 5" Foreground="DarkGray" Content="{Binding ScanDurationMS, Mode=OneWay, FallbackValue=123456789}" ContentStringFormat="Search duration: {0} ms"/>
                     <Label FontSize="16" Margin="10 0 5 0" ContentStringFormat="Files Matched: {0}" Content="{Binding Files.Count, Mode=OneWay, FallbackValue=12345}"/>
                 </StackPanel>
-            </StackPanel>
+            </Grid>
 
             <ListView Grid.Row="1" 
                       Margin="0 10 0 0"
@@ -82,7 +102,9 @@
                       VirtualizingPanel.IsVirtualizing="True"
                       ScrollViewer.CanContentScroll="True"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
-                      ItemsSource="{Binding Files, Mode=OneWay}">
+                      ItemsSource="{Binding Files, Mode=OneWay}"
+                      SelectionMode="Single"
+                      SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
                 <ListView.View>
                     <GridView>

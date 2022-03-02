@@ -31,7 +31,7 @@ namespace FFS.Views
         private void FilesView_OnFileIconColumnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             // Lock files view column to constant size
-            if (e.NewSize.Width <= FileColumnWidth || e.NewSize.Width >= FileColumnWidth)
+            if (e.NewSize.Width is <= FileColumnWidth or >= FileColumnWidth)
             {
                 e.Handled = true;
                 ((GridViewColumnHeader)sender).Column.Width = FileColumnWidth;

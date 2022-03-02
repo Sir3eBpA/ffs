@@ -10,6 +10,8 @@ using FFS.Models;
 using FFS.Services.QueryBuilder;
 using FFS.Services.QueryProcessor;
 using Microsoft.Toolkit.Mvvm.Input;
+using Serilog;
+using Serilog.Core;
 
 namespace FFS.ViewModels
 {
@@ -46,14 +48,51 @@ namespace FFS.ViewModels
         }
         private string _query;
 
+        public INode SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                SetProperty(ref _selectedItem, value);
+                OpenCommand.NotifyCanExecuteChanged();
+                ShowInExplorerCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+        private INode _selectedItem;
+
         public AsyncRelayCommand QueryCommand { get; }
+        public RelayCommand ShowInExplorerCommand { get; }
+        public RelayCommand OpenCommand { get; }
         private ScanResult _model;
 
         public QueryPanelViewModel()
         {
             _files = new ObservableCollection<INode>();
             QueryCommand = new AsyncRelayCommand(DoQuery);
+
+            ShowInExplorerCommand = new RelayCommand(ShowInExplorer, () => null != SelectedItem);
+            OpenCommand = new RelayCommand(Open, () => null != SelectedItem);
+
+            ShowInExplorerCommand.NotifyCanExecuteChanged();
+            OpenCommand.NotifyCanExecuteChanged();
+
             ScanDurationMS = 0;
+        }
+
+        private void Open()
+        {
+            var process = new Process()
+            {
+                StartInfo = { UseShellExecute = true, FileName = SelectedItem.FullName }
+            };
+            process.Start();
+        }
+
+        private void ShowInExplorer()
+        {
+            string arg = $"/select, \"{SelectedItem.FullName}\"";
+            Process.Start("explorer.exe", arg);
         }
 
         private async Task DoQuery()

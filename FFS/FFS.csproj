@@ -29,7 +29,9 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\Icons\drive_icon.png" />
+    <None Remove="Assets\Icons\launch.png" />
     <None Remove="Assets\Icons\left_arrow.png" />
+    <None Remove="Assets\Icons\open_folder.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="NtfsReader">
@@ -55,7 +57,13 @@
     <Resource Include="Assets\Icons\drive_icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Icons\launch.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Icons\left_arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\open_folder.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\plus.png">
