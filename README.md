@@ -2,6 +2,9 @@
 
 FFS was made as an experiment with NTFS and specifically MFT along with WPF in order to see how fast can the search be.. and it turned out to be pretty fast!!
 
+**In order to scan MFT you need to provide an admin access to the software, this is normal and there's no need to be worried about this step!**
+This software provides no harm and only performs scanning, everything else is processed outside the MFT based on working copies extracted from there
+
 # Introduction:
 First step is scanning drive's master file table aka metadata
 ![1](https://user-images.githubusercontent.com/10902756/156497968-b1eb09e0-17be-440e-a15a-2f0623852430.png)
