@@ -6,11 +6,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using AdonisUI.Extensions;
+using FFS.Services.Exporters;
 using FFS.Services.FileSystemScanner;
 using FFS.Services.FileSystemScanner.NTFS;
+using FFS.Services.Reporting;
 using FFS.ViewModels;
 using FFS.Views;
 using Microsoft.Extensions.DependencyInjection;
+using MvvmDialogs;
+using MvvmDialogs.DialogFactories;
+using MvvmDialogs.DialogTypeLocators;
+using MvvmDialogs.FrameworkDialogs;
 using Serilog;
 
 namespace FFS
@@ -50,6 +56,18 @@ namespace FFS
             // Transient services
             services.AddTransient<DiskScanViewModel>();
             services.AddTransient<QueryPanelViewModel>();
+
+            // Register mvvm-dialogues dependencies
+#pragma warning disable CA1416 // Validate platform compatibility
+            services.AddTransient<IDialogService, DialogService>();
+            services.AddTransient<IDialogFactory, ReflectionDialogFactory>();
+            services.AddTransient<IDialogTypeLocator, NamingConventionDialogTypeLocator>();
+            services.AddTransient<IFrameworkDialogFactory, DefaultFrameworkDialogFactory>();
+#pragma warning restore CA1416 // Validate platform compatibility
+
+            // register exporters
+            services.AddTransient<ExportSystem>();
+            services.AddTransient<IExporter, CSVExporter>();
 
             DI = services.BuildServiceProvider();
         }

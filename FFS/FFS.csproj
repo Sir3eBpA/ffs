@@ -28,6 +28,7 @@
     <FileVersion>0.1</FileVersion>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\Icons\csv_export.png" />
     <None Remove="Assets\Icons\drive_icon.png" />
     <None Remove="Assets\Icons\launch.png" />
     <None Remove="Assets\Icons\left_arrow.png" />
@@ -54,6 +55,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Icons\csv_export.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Icons\drive_icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -81,11 +85,13 @@
   <ItemGroup>
     <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
     <PackageReference Include="Collections.Pooled" Version="1.0.0" />
+    <PackageReference Include="CsvHelper" Version="27.2.1" />
     <PackageReference Include="FakeItEasy" Version="7.3.0" />
     <PackageReference Include="FluentAssertions" Version="6.5.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
+    <PackageReference Include="MvvmDialogs" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Swordfish.NET.CollectionsV3" Version="3.3.8" />

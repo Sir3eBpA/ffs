@@ -4,8 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+      xmlns:extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
       xmlns:controls="clr-namespace:FFS.Controls"
-      xmlns:viewModels="clr-namespace:FFS.ViewModels"
+      xmlns:mvvmDialogs="clr-namespace:MvvmDialogs;assembly=MvvmDialogs"
+      mvvmDialogs:DialogServiceViews.IsRegistered="True"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
@@ -28,7 +30,11 @@
                     Search query:
                 </Label>
 
-                <TextBox Height="35" FontSize="20" Margin="0 10 0 0" Text="{Binding Query, Mode=TwoWay, FallbackValue=*}"/>
+                <TextBox Height="35" 
+                         FontSize="20"
+                         Margin="0 10 0 0" 
+                         Text="{Binding Query, Mode=TwoWay, FallbackValue=*}"
+                         extensions:WatermarkExtension.Watermark="* to show all, . for extension, string for file name"/>
 
                 <Button Width="200" 
                         Height="50"
@@ -60,7 +66,7 @@
               Visibility="Visible">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -85,9 +91,16 @@
                             ToolTip="Open selected file using associated software">
                         <Image Source="../Assets/Icons/launch.png"/>
                     </Button>
+                    <Button Height="40" 
+                            Width="40"
+                            Margin="20 0 5 0"
+                            Command="{Binding ExportCSVCommand}"
+                            ToolTip="Export matched files to csv">
+                        <Image Source="../Assets/Icons/csv_export.png"/>
+                    </Button>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right">
+                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" Margin="0 0 20 0">
                     <Label FontSize="14" Margin="10 0 5 5" Foreground="DarkGray" Content="{Binding ScanDurationMS, Mode=OneWay, FallbackValue=123456789}" ContentStringFormat="Search duration: {0} ms"/>
                     <Label FontSize="16" Margin="10 0 5 0" ContentStringFormat="Files Matched: {0}" Content="{Binding Files.Count, Mode=OneWay, FallbackValue=12345}"/>
                 </StackPanel>
