@@ -21,7 +21,7 @@
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
             <!--Default styles-->
-            <Style x:Key="{x:Type ListView}" TargetType="ListView" BasedOn="{StaticResource {x:Type ListView}}">
+            <Style TargetType="ListView">
                 <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}"/>
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1InteractionForegroundBrush}}"/>
             </Style>
