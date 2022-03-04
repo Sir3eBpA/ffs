@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Filesystem.Ntfs;
 using System.Linq;
@@ -34,6 +35,10 @@ namespace FFS.ViewModels
             set => SetProperty(ref _files, value);
         }
         private ObservableCollection<INode> _files;
+
+        public List<string> SearchLimits => new() { "All", "100,000", "10,000", "1000", "100" };
+
+        public string SelectedSearchLimit { get; set; } = "All";
 
         public long ScanDurationMS
         {
@@ -176,6 +181,15 @@ namespace FFS.ViewModels
             }
         }
 
+        private int GetSearchLimit()
+        {
+            if (SelectedSearchLimit == "All")
+                return -1;
+
+            int limit = int.Parse(SelectedSearchLimit, NumberStyles.AllowThousands);
+            return limit;
+        }
+
         private async Task DoQuery()
         {
             IsExecutingQuery = true;
@@ -189,7 +203,9 @@ namespace FFS.ViewModels
                 Queries.SetActiveQuery(Query, textQuery);
 
                 Files?.Clear();
-                Files = await Task.Run(() => textQuery.Process(Query, _model.Files));
+
+                int limit = GetSearchLimit();
+                Files = await Task.Run(() => textQuery.Process(Query, _model.Files, limit));
             }
             ScanDurationMS = sw.ElapsedMilliseconds;
 

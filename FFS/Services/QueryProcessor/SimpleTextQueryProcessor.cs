@@ -24,7 +24,7 @@ namespace FFS.Services.QueryProcessor
             return QueryValidationResult.Valid;
         }
 
-        public ObservableCollection<INode> Process(string query, IList<INode> files)
+        public ObservableCollection<INode> Process(string query, IList<INode> files, int limit)
         {
             if (!IsValid(query).IsValid)
                 throw new ArgumentException("invalid query");
@@ -41,6 +41,9 @@ namespace FFS.Services.QueryProcessor
 
             foreach (INode file in files)
             {
+                if(limit != -1 && result.Count >= limit)
+                    break;
+
                 if (addAll)
                 {
                     result.Add(file);
