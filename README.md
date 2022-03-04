@@ -41,9 +41,20 @@ Right now queries are very simple as they do what's needed for me hence why the 
 You can find NTFS MFT reader repository with my optimizations here: https://github.com/Sir3eBpA/ntfsreader-sf
 This is the one I use when generating NtfsReader.dll file, it might be worth to include it into this repo as a submodule but I barely touch it so found no need for it yet
 
-# **Performance Comparison**
-Coming soon.. 
-I'd like to provide a comparison with a **WizTree** that uses MFT scan too and **Windows Explorer** which most likely relies on regular file system scanning which is obviously very slow
+# **Performance**
+Scanning all 3 drives I have on my end (875 gb of data OR 3,224,292 files)
+1. File name search (substring in string) - ~1215 ms
+![1](https://user-images.githubusercontent.com/10902756/156688742-4e082aef-ab42-4c04-9b96-42dc0d5bbbda.png)
+2. extension search (reference comparison) - ~67 ms
+![2](https://user-images.githubusercontent.com/10902756/156688817-76134a49-01c7-42d2-9096-8f164a34e8f5.png)
+3. search all - ~122 ms
+![3](https://user-images.githubusercontent.com/10902756/156688857-13da89d1-9841-4057-a50f-7fad7bca4dd2.png)
+
+Hardware specs:
+- i7-9700K (3.6 ghz)
+- 32 gb ram
+- Samsung SSD 860 EVO (500 gb)
+- Samsung SSD 860 EVO (1000 gb)
 
 # **Misc**
 **PR's are welcome!**
