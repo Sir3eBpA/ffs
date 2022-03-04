@@ -26,6 +26,6 @@ namespace FFS.Services.QueryBuilder
     {
         QueryValidationResult IsValid(string query);
 
-        ObservableCollection<INode> Process(string query, IList<INode> files);
+        ObservableCollection<INode> Process(string query, IList<INode> files, int limit);
     }
 }
