@@ -32,25 +32,26 @@ namespace FFS.Services.QueryProcessor
             if (null == files)
                 throw new ArgumentNullException("files");
 
-            ObservableCollection<INode> result = new ObservableCollection<INode>();
-
             string finalQuery = query.Trim();
-            bool searchExtension = finalQuery[0] == '.';
-            bool addAll = finalQuery[0] == '*';
+            bool searchingExtension = finalQuery[0] == '.';
             var finalQuerySpan = finalQuery.AsSpan();
 
+            bool addAll = finalQuery[0] == '*';
+            if (addAll)
+            {
+                if (limit == -1)
+                    return new ObservableCollection<INode>(files);
+
+                return new ObservableCollection<INode>(files.Take(limit));
+            }
+
+            var result = new ObservableCollection<INode>();
             foreach (INode file in files)
             {
-                if(limit != -1 && result.Count >= limit)
+                if (limit != -1 && result.Count >= limit)
                     break;
 
-                if (addAll)
-                {
-                    result.Add(file);
-                    continue;
-                }
-
-                if (searchExtension)
+                if (searchingExtension)
                 {
                     if (file.Extension.Contains(query))
                     {
@@ -59,7 +60,7 @@ namespace FFS.Services.QueryProcessor
                 }
                 else
                 {
-                    if(IsMatchingFilenameNoExtension(query, file, finalQuerySpan))
+                    if (IsMatchingFilenameNoExtension(query, file, finalQuerySpan))
                         result.Add(file);
                 }
             }
