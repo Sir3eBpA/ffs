@@ -34,7 +34,7 @@ Right now queries are very simple as they do what's needed for me hence why the 
 - Replace AdonisUI with some other fast, efficient and good looking WPF UI theme (I like adonis, you can't blame me..)
 - Add more export options
 - Look into context menu or some better interactions for more actions (context menus are borked thanks to adonis)
-- Add more file search options that support Non-NFT drives (obviously it won't be as fast as MFT but it's going to make this software more suitable for using with other types of drives)
+- Add more file search options that support Non-NTFS drives (obviously it won't be as fast as MFT but it's going to make this software more suitable for using with other types of drives)
 - Other options
 
 # **Extras**
